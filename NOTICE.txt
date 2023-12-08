@@ -1,0 +1,14 @@
+Quantori Implementation for Structure Seer model
+Copyright (C) 2023 Quantori, Denis Sapegin
+This product was designed for academic purposes by Denis Sapegin;
+The quantum mechanics calculations necessary for dataset preparation depend on the
+ORCA (https://orcaforum.kofo.mpg.de/app.php/portal) software, developed by Max-Planck-Institute für Kohlenforschung,
+under End User License Agreement (EULA) for the ORCA software (https://orcaforum.kofo.mpg.de/app.php/portal)
+
+
+In addition, this product contains dependencies on files licensed under:
+
+Apache License, Version 2.0 http://www.apache.org/licenses/LICENSE-2.0
+The MIT License https://opensource.org/licenses/MIT
+The 3-Clause BSD License https://opensource.org/licenses/BSD-3-Clause
+GNU Affero General Public License v3.0 https://www.gnu.org/licenses/agpl-3.0.en.html

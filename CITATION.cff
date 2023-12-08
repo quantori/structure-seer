@@ -1,0 +1,18 @@
+cff-version:
+message: "If you use this software, please cite it as below."
+  type: article
+  authors:
+  - family-names: "Sapegin"
+    given-names: "Denis Andzheevich"
+    orcid: "https://orcid.org/0000-0002-1446-6288"
+  - family-names: "Bear"
+    given-names: "Joseph C."
+    orcid:
+  doi:
+  journal: "Digital Discovery"
+  month:
+  article-number:
+  title:
+  issue:
+  volume:
+  year:

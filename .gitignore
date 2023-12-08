@@ -1,0 +1,9 @@
+data/*
+.DS_Store
+**/.DS_Store
+.idea/
+__pycache__/
+wandb/*
+colab_training/*
+/.ipynb_checkpoints/
+/venv
