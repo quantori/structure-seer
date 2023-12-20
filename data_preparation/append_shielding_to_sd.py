@@ -1,7 +1,13 @@
-from utils import is_successful_orca_run, nmr_shielding_from_out_file, read_sdf_compounds
-from rdkit import Chem
-import os
 import logging
+import os
+
+from rdkit import Chem
+
+from utils import (
+    is_successful_orca_run,
+    nmr_shielding_from_out_file,
+    read_sdf_compounds,
+)
 
 """
 This script can be used to extract calculated
@@ -28,7 +34,6 @@ for folder in input_dir:
     ):
         logging.info(f"{input_dir.index(folder)} out of {len(input_dir)} processed")
         # Parse NMR Shielding constants from .out file
-        print(folder)
         nmr = nmr_shielding_from_out_file(
             path_to_out_file=f"{INPUT_FOLDER}/{folder}/{folder}_{CALC_TYPE}.out"
         )

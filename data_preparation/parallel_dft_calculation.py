@@ -1,11 +1,10 @@
 import datetime
-import os
-import typing
 import logging
+import os
 import time
-
+import typing
 from multiprocessing import Pool
-from utils import batch, ORCA_PATH
+
 
 """
 Script Executes parallel DFT Calculations using ORCA. Number of Workers, as well as ORCA path and path
@@ -15,20 +14,37 @@ to a directory, containing folders with .inp files can be configured.
 # Specify a number of parallel worker processes - optimal for local machine on M1 chip - is 4
 WORKERS = 4
 # Specify the directory with compound folders containing .inp files
-INPUT_FOLDER = "/Input_folder_path"
+INPUT_FOLDER = "../Input_folder_path/11_NMR_batch_1"
 # Specify Calculation type OPT or NMR
 CALC_TYPE = "NMR"
 
+# ORCA path
+ORCA_PATH = "/Path/to/ORCA"
+
 logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.INFO)
+
+
+def batch(iterable: list, n: int):
+    """
+    Creates batches from a given iterable
+    :param iterable: the iterable to be divided into batcehs
+    :param n: batch size
+    :return: i batches of size n
+    """
+    l = len(iterable)
+    i = 0
+    for ndx in range(0, l, n):
+        i += 1
+        yield i, iterable[ndx : min(ndx + n, l)]
 
 
 # Definition of calculation job
 def orca_job(input_data):
     num_tasks = len(input_data[1])
     total_time = 0
-    for task in input_data[1]:
+    for task_index, task in enumerate(input_data[1]):
         try:
-            task_index = input_data[1].index(task) + 1
+            task_index += 1
             logging.info(
                 f"Starting computation for {task} - {task_index} out of {num_tasks} on worker {input_data[0]}"
             )
@@ -47,6 +63,7 @@ def orca_job(input_data):
             )
         except:
             logging.info(f"Calculations for {task} on worker {input_data[0]} failed")
+            
     logging.info(
         f"Computation of {num_tasks} tasks on worker {input_data[0]} finished in"
         f" {datetime.timedelta(seconds=round(total_time))}"

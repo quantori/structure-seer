@@ -1,12 +1,15 @@
-from utils import read_sdf_compounds, MolGraph
+from statistics import mean
+
 import torch
 from tqdm import tqdm
-from statistics import mean
+
 from models.structure_seer_model import StructureSeer
+from utils import MolGraph, read_sdf_compounds
 from utils.molecule_permutations import (
     generate_adjacency_matrix_permutations,
     generate_shielding_permutations,
 )
+
 """
 Attributes peaks of the given structure based on the model's predictions
 by evaluating and scoring all possible atom permutations
@@ -21,13 +24,13 @@ structure_seer = StructureSeer()
 # Load weights, trained on QM9 Dataset
 structure_seer.encoder.load_state_dict(
     torch.load(
-        f"../weights/structure_seer/qm9/qm9_structure_seer_encoder.weights",
+        "../weights/structure_seer/qm9/qm9_structure_seer_encoder.weights",
         map_location="cpu",
     )
 )
 structure_seer.decoder.load_state_dict(
     torch.load(
-        f"../weights/structure_seer/qm9/qm9_structure_seer_decoder.weights",
+        "../weights/structure_seer/qm9/qm9_structure_seer_decoder.weights",
         map_location="cpu",
     )
 )

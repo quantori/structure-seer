@@ -1,10 +1,12 @@
 import os
 import time
+from statistics import mean
+
 import torch
 import torch.nn.functional as F
-from statistics import mean
-from utils.metrics import wrong_bonds
 from tqdm import tqdm
+
+from utils.metrics import wrong_bonds
 
 
 def matrix_criteria(output: torch.Tensor, target: torch.Tensor) -> torch.Tensor:

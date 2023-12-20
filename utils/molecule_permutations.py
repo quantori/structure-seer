@@ -1,8 +1,8 @@
-import torch
-from rdkit.Chem import rdMolDescriptors
-
-from rdkit import Chem
 import itertools
+
+import torch
+from rdkit import Chem
+from rdkit.Chem import rdMolDescriptors
 
 
 def generate_molecular_formula(compound) -> str:

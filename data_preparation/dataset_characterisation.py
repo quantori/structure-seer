@@ -1,12 +1,17 @@
-from utils import MolecularDataset
+import logging
 import torch
+
+from collections import defaultdict
+from utils import MolecularDataset
 
 """
 Current script was used to perform characterisation of the datasets
 """
 
+logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.INFO)
+
 dataset = MolecularDataset(
-    "../data/Example.dataset",
+    "./example_datasets/demo_compounds_qm9.sdf",
     absolute_norm=True,
     shielding_sort=True,
 )
@@ -18,8 +23,9 @@ test_loader = torch.utils.data.DataLoader(
     drop_last=False,
 )
 
-atom_nums_count = {}
-bonds_count = {}
+atom_nums_count = defaultdict(int)
+bonds_count = defaultdict(int)
+
 for item in test_loader:
     adj_matrix = item["adjacency_matrix"]
 
@@ -43,5 +49,5 @@ for item in test_loader:
     else:
         bonds_count[num_bonds] = 1
 
-print(bonds_count)
-print(atom_nums_count)
+logging.info(f"Bonds \n {bonds_count}")
+logging.info(f"Atoms \n {atom_nums_count}")

@@ -1,0 +1,4 @@
+from data_preparation import parallel_dft_calculation
+
+print(__name__)
+parallel_dft_calculation

@@ -1,8 +1,10 @@
-from utils import is_successful_orca_run
-from rdkit.Chem import rdmolfiles
-from rdkit import Chem
-import os
 import logging
+import os
+
+from rdkit import Chem
+from rdkit.Chem import rdmolfiles
+
+from utils import is_successful_orca_run
 
 """
 Merges optimised structures from .out files to an .sdf file

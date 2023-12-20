@@ -7,12 +7,7 @@ message: "If you use this software, please cite it as below."
     orcid: "https://orcid.org/0000-0002-1446-6288"
   - family-names: "Bear"
     given-names: "Joseph C."
-    orcid:
-  doi:
+  doi: "10.1039/D3DD00178D",
   journal: "Digital Discovery"
-  month:
-  article-number:
-  title:
-  issue:
-  volume:
-  year:
+  title: "Structure Seer – a machine learning model for chemical structure elucidation from node labelling of a molecular graph"
+  year: "2024"

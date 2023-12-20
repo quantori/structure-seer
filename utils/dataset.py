@@ -1,6 +1,7 @@
 import torch
-from tqdm import tqdm
 from torch.utils.data import Dataset
+from tqdm import tqdm
+
 from .data_utils import read_sdf_compounds
 from .molgraph import MolGraph
 

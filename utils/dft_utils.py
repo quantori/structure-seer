@@ -1,12 +1,13 @@
 import datetime
-import os
 import logging
+import os
+import re
 import time
 import typing
-import re
 
 from rdkit import Chem
-from .config import DFT_OPT_HEADER, DFT_NMR_HEADER, ORCA_PATH
+
+from .config import DFT_NMR_HEADER, DFT_OPT_HEADER, ORCA_PATH
 
 logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.INFO)
 

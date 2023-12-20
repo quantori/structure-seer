@@ -17,8 +17,6 @@ SCF calculations
 DFT_OPT_HEADER = "!PM3 def2-SVP OPT"
 # ORCA input file header for NMR shielding constants calculations
 DFT_NMR_HEADER = "!HF-3c NMR"
-# ORCA path
-ORCA_PATH = "/Users/ORCA"
 
 """
 Molecular graph parameters

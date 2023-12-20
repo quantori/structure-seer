@@ -1,22 +1,17 @@
+import random
 import typing
 
-import torch
+import matplotlib.pyplot as plt
+import networkx as nx
+import networkx.algorithms.isomorphism as iso
 import numpy
-import random
-
+import torch
+from networkx import get_edge_attributes, is_isomorphic
 from rdkit import Chem
 from rdkit.Chem import rdmolops
 
-import networkx as nx
-import matplotlib.pyplot as plt
-
-from .nmredata_utils import read_shielding
-
-from networkx import is_isomorphic, get_edge_attributes, graph_edit_distance
-import networkx.algorithms.isomorphism as iso
-
-
 from .config import DIMENSION, NUM_BOND_TYPES, SHIELDING_MAX, SHIELDING_MIN
+from .nmredata_utils import read_shielding
 
 # allowable node and edge features
 allowable_features = {
@@ -89,12 +84,12 @@ class MolGraph:
         :return: MolGraph object
         """
         if nodes is None:
-            raise ValueError(f"Either Nodes tensor or Atom Matrix should be specified.")
+            raise ValueError("Either Nodes tensor or Atom Matrix should be specified.")
 
         n = len(nodes)
 
         if adjacency_matrix is None:
-            raise ValueError(f"Adjacency matrix should be Specified")
+            raise ValueError("Adjacency matrix should be Specified")
 
         if adjacency_matrix.size() != torch.Size(
             [DIMENSION, DIMENSION, NUM_BOND_TYPES]
@@ -255,7 +250,7 @@ class MolGraph:
         if graph_size > DIMENSION:
             raise ValueError(f"The graph should have not more than {DIMENSION} nodes")
         if self.edge_attr is None:
-            raise ValueError(f"Bond types should be specified in edge_attr of Data")
+            raise ValueError("Bond types should be specified in edge_attr of Data")
 
         for i in range(bonds_size):
             x = self.edge_index[0][i]

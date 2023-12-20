@@ -1,9 +1,9 @@
-from utils.data_utils import read_sdf_compounds
-from utils.molgraph import MolGraph, show_adjacency_matrix, show_bond_probabilities
-
 import torch
+
 from models.structure_seer_model import StructureSeer
-from utils.metrics import heatmap_similarity, wrong_bonds, excess_bonds
+from utils.data_utils import read_sdf_compounds
+from utils.metrics import excess_bonds, heatmap_similarity, wrong_bonds
+from utils.molgraph import MolGraph, show_adjacency_matrix, show_bond_probabilities
 
 """
 Illustrates model capabilities on a set of pre-defined examples
@@ -15,13 +15,13 @@ structure_seer = StructureSeer()
 # Load weights, trained on QM9 Dataset
 structure_seer.encoder.load_state_dict(
     torch.load(
-        f"../weights/structure_seer/qm9/qm9_structure_seer_encoder.weights",
+        "../weights/structure_seer/qm9/qm9_structure_seer_encoder.weights",
         map_location="cpu",
     )
 )
 structure_seer.decoder.load_state_dict(
     torch.load(
-        f"../weights/structure_seer/qm9/qm9_structure_seer_decoder.weights",
+        "../weights/structure_seer/qm9/qm9_structure_seer_decoder.weights",
         map_location="cpu",
     )
 )

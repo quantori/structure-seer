@@ -1,7 +1,9 @@
-import torch
 from statistics import mean
-from utils.metrics import heatmap_similarity, wrong_bonds, excess_bonds
+
+import torch
 from tqdm import tqdm
+
+from utils.metrics import excess_bonds, heatmap_similarity, wrong_bonds
 
 
 def evaluate_model(
