@@ -3,7 +3,7 @@
 pip install -r requirements.txt
  ```
 The SCF calculation were performed using [ORCA](https://orcaforum.kofo.mpg.de/app.php/portal).
-To use calculations, install ORCA and specify its global path
+To use quantum-chemistry calculations, install ORCA and specify its global path
 in a corresponding environment variable in ```./data_preparation/parallel_dft_calculation.py```.
 
 ## Repository structure

@@ -1,3 +1,4 @@
+import logging
 import os
 import time
 from statistics import mean
@@ -7,6 +8,8 @@ import torch.nn.functional as F
 from tqdm import tqdm
 
 from utils.metrics import wrong_bonds
+
+logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.INFO)
 
 
 def matrix_criteria(output: torch.Tensor, target: torch.Tensor) -> torch.Tensor:
@@ -67,7 +70,7 @@ def train_epoch(
     average_training_loss = 0
     encoder.train()
     decoder.train()
-    print("Training")
+    logging.info("Training")
     for batch in tqdm(loader):
         loss, _, _ = process_batch(encoder, decoder, batch, device)
 
@@ -90,7 +93,7 @@ def validate_epoch(
     average_wrong_bonds = []
     encoder.eval()
     decoder.eval()
-    print("Validation")
+    logging.info("Validation")
     for batch in tqdm(loader):
         loss, output, target = process_batch(encoder, decoder, batch, device)
         average_validation_loss += loss.item()
@@ -138,7 +141,7 @@ def train(
 
     total_time = 0
     for epoch_index in range(epochs):
-        print(f"EPOCH {epoch_index + 1} out of {epochs}")
+        logging.info(f"EPOCH {epoch_index + 1} out of {epochs}")
         log = open(f"{save_path}/train_log.txt", "a+")
         epoch_start = time.time()
 
@@ -183,5 +186,5 @@ def train(
         )
 
         log.write(status)
-        print(status)
+        logging.info(status)
         log.close()

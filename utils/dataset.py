@@ -1,9 +1,12 @@
+import logging
 import torch
 from torch.utils.data import Dataset
 from tqdm import tqdm
 
 from .data_utils import read_sdf_compounds
 from .molgraph import MolGraph
+
+logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.INFO)
 
 
 class MolecularDataset(Dataset):
@@ -20,7 +23,7 @@ class MolecularDataset(Dataset):
         :param absolute_norm: If True - values of isotropic shielding constants are normalised to (-1000, 1000) range
         """
         compounds = read_sdf_compounds(path_to_sdf_file)
-        print("Creating Dataset...")
+        logging.info("Creating Dataset...")
         structures = [
             MolGraph.from_mol(mol=x, shielding=True, remove_hs=True) for x in compounds
         ]
@@ -29,7 +32,7 @@ class MolecularDataset(Dataset):
 
         if shielding_sort:
             sorted_structures = []
-            print("Sorting structures...")
+            logging.info("Sorting structures...")
             for i in tqdm(range(len(structures))):
                 structure = structures[i]
                 sorted_structures.append(structure.sort(shielding=True)[0])

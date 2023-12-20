@@ -61,7 +61,6 @@ for u in tqdm(range(len(qm9_compounds))):
     # Shuffle input graph
 
     if perm_count <= PERMUTATION_LIMIT:
-        # print(f"Processing compound {u + 1} out of {structure_count}")
         # Generate all permutations of the input graph adjacency matrix
         target = torch.argmax(target, dim=-1)
         input_permutations = generate_adjacency_matrix_permutations(
@@ -72,7 +71,6 @@ for u in tqdm(range(len(qm9_compounds))):
         prediction = torch.argmax(prediction, dim=-1)
         prediction_tensor = torch.stack([prediction] * perm_count, dim=0)
 
-        # scores = score(prediction_tensor, input_permutations)
         diff = torch.abs(prediction_tensor - input_permutations)
         s_diff = torch.reshape(
             diff, (diff.size(dim=0), diff.size(dim=1) * diff.size(dim=2))

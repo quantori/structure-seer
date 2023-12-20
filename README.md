@@ -1,12 +1,13 @@
-![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white)
+[![DOI:10.1039/D3DD00178D](http://img.shields.io/badge/DOI-10.1039/D3DD00178D-ebe534.svg)](https://doi.org/10.1039/D3DD00178D)
 
+![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white)
 # Structure Seer 
 
 The implementation training and evaluation of a Structure Seer model designed for
 reconstruction of adjacency of a molecular graph from the labelling of its nodes.
 The detailed characterisation and disclosure of the model architecture is provided in:
 [Structure Seer - a machine learning model for chemical structure elucidation
-from a node labelling of a molecular graph, Digital discovery, 2023]()
+from a node labelling of a molecular graph, Digital discovery, 2023](https://doi.org/10.1039/D3DD00178D)
 
 ## Datasets
 

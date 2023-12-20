@@ -22,9 +22,9 @@ def generate_mol_file(compound: Chem.Mol, path: str) -> None:
     :param path: path to the .mol file
     :return: None
     """
-    f = open(path, "w+")
-    f.write(Chem.MolToMolBlock(compound))
-    f.close()
+    with open(path, "w+") as f:
+        f.write(Chem.MolToMolBlock(compound))
+        f.close()
 
 
 def create_id_list(path_to_sdf: str) -> list:

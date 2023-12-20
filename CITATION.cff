@@ -1,5 +1,7 @@
-cff-version: 1.2.0
+cff-version: 1.1.4
 message: "If you use this software, please cite it as below."
+url: "https://github.com/quantori/structure-seer"
+preferred-citation:
   type: article
   authors:
   - family-names: "Sapegin"
@@ -10,4 +12,4 @@ message: "If you use this software, please cite it as below."
   doi: "10.1039/D3DD00178D",
   journal: "Digital Discovery"
   title: "Structure Seer – a machine learning model for chemical structure elucidation from node labelling of a molecular graph"
-  year: "2024"
+  year: 2024

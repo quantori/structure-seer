@@ -7,7 +7,7 @@ import typing
 
 from rdkit import Chem
 
-from .config import DFT_NMR_HEADER, DFT_OPT_HEADER, ORCA_PATH
+from .config import DFT_NMR_HEADER, DFT_OPT_HEADER
 
 logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.INFO)
 
@@ -56,7 +56,7 @@ def is_successful_orca_run(path_to_out_file: str) -> bool:
             return False
 
 
-def calculate_with_orca(path: str, calc_type: typing.Optional[str] = "DFT") -> None:
+def calculate_with_orca(path: str, orca_path: str, calc_type: typing.Optional[str] = "DFT") -> None:
     """
     Run ORCA calculation from every folder within the specified directory, if it contains appropriate .inp file
     :param path: path to directory with folders, containing input files
@@ -85,7 +85,7 @@ def calculate_with_orca(path: str, calc_type: typing.Optional[str] = "DFT") -> N
             )
             job_start = time.time()
             os.system(
-                f"{ORCA_PATH}/orca {path}/{compound}/{compound}.inp > {path}/{compound}/{compound}_{calc_type}.out"
+                f"{orca_path}/orca {path}/{compound}/{compound}.inp > {path}/{compound}/{compound}_{calc_type}.out"
             )
             job_end = time.time()
             logging.info(

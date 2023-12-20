@@ -36,7 +36,7 @@ class StructureSeer(nn.Module):
         decoder_nlayers: int = 6,
         device: torch.device = "cpu",
     ):
-        super(StructureSeer, self).__init__()
+        super().__init__()
 
         self.encoder = GCNEncoder(
             dimension=dimension,
@@ -101,7 +101,7 @@ class GCNEncoder(nn.Module):
         generic_dim: int = 256,
         device: torch.device = "cpu",
     ):
-        super(GCNEncoder, self).__init__()
+        super().__init__()
         self.dimension = dimension
         self.embedding_dim = embedding_dim
 
@@ -186,7 +186,7 @@ class GCNEncoder(nn.Module):
 
         conv1 = self.act1(self.gcn1(x=nodes_merged, adjacency_matrix=generic_matrix))
         conv2 = self.act2(self.gcn2(x=conv1, adjacency_matrix=generic_matrix))
-        conv3 = self.act2(
+        conv3 = self.act3(
             self.gcn3(x=conv2, adjacency_matrix=generic_matrix)
         )  # size (batch_size, DIMENSION, n_hidden)
 
@@ -210,7 +210,7 @@ class Decoder(torch.nn.Module):
         nhead: int = 8,
         nlayers: int = 6,
     ):
-        super(Decoder, self).__init__()
+        super().__init__()
         self.dimension = dimension
         self.num_bond_types = num_bond_types
 
@@ -251,7 +251,7 @@ class GraphConv(nn.Module):
         dimension: int = DIMENSION,
         device: torch.device = "cpu",
     ):
-        super(GraphConv, self).__init__()
+        super().__init__()
 
         self.dimension = dimension
         self.linear = nn.Linear(in_features, out_features)
