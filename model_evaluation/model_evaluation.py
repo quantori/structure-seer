@@ -1,9 +1,12 @@
+import logging
 from statistics import mean
 
 import torch
 from tqdm import tqdm
 
 from utils.metrics import excess_bonds, heatmap_similarity, wrong_bonds
+
+logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.INFO)
 
 
 def evaluate_model(
@@ -155,17 +158,18 @@ def evaluate_model(
         elif 20 > frac:
             psnr_dict["< 20"] += 1
 
-    print("Wrong Bonds (positions only):")
-    print(f"\tAverage: {round(mean(pos_total) * 100, 2)} %")
-    print("\tDistribution:")
-    print(f"\t{pos_wrong_bonds_dict}\n")
-    print("Wrong Bonds:")
-    print(f"\tAverage: {round(mean(exact_total) * 100, 2)} %")
-    print("\tDistribution:")
-    print(f"\t{wrong_bonds_dict}\n")
-    print("Heatmap Similarity (PSNR)")
-    print(f"\tAverage: {round(mean(psnr), 3)} dB")
-    print("\tDistribution:")
-    print(f"\t{psnr_dict}\n")
-    print("Excess Bonds")
-    print(f"\tAverage: {round(mean(av_fragment_accuracy) * 100, 2)} %")
+    logging.info(
+        f"Wrong Bonds (positions only):\n"
+        f"\tAverage: {round(mean(pos_total) * 100, 2)} %"
+        f"\tDistribution:"
+        f"\t{pos_wrong_bonds_dict}\n"
+        f"Wrong Bonds:"
+        f"\tAverage: {round(mean(exact_total) * 100, 2)} %"
+        f"\tDistribution:"
+        f"Heatmap Similarity (PSNR)"
+        f"\tAverage: {round(mean(psnr), 3)} dB"
+        f"\tDistribution:"
+        f"\t{psnr_dict}\n"
+        f"Excess Bonds"
+        f"\tAverage: {round(mean(av_fragment_accuracy) * 100, 2)} %"
+    )

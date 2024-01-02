@@ -28,7 +28,7 @@ class TEncoder(torch.nn.Module):
         nhead: int = 8,
         sum_layer: bool = True,
     ):
-        super(TEncoder, self).__init__()
+        super().__init__()
         self.dimension = dimension
         self.sum_layer = sum_layer
         self.num_embeddings = num_embeddings
@@ -106,10 +106,10 @@ class PositionalEncoding(nn.Module):
         super().__init__()
         self.dropout = nn.Dropout(p=dropout)
 
+        log_const = -math.log(10000.0)
+
         position = torch.arange(max_len).unsqueeze(1)
-        div_term = torch.exp(
-            torch.arange(0, d_model, 2) * (-math.log(10000.0) / d_model)
-        )
+        div_term = torch.exp(torch.arange(0, d_model, 2) * (log_const / d_model))
         pe = torch.zeros(max_len, 1, d_model)
         pe[:, 0, 0::2] = torch.sin(position * div_term)
         pe[:, 0, 1::2] = torch.cos(position * div_term)

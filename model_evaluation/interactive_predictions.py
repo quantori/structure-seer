@@ -1,9 +1,13 @@
+import logging
+
 import torch
 
 from models.structure_seer_model import StructureSeer
 from utils.data_utils import read_sdf_compounds
 from utils.metrics import excess_bonds, heatmap_similarity, wrong_bonds
 from utils.molgraph import MolGraph, show_adjacency_matrix, show_bond_probabilities
+
+logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.INFO)
 
 """
 Illustrates model capabilities on a set of pre-defined examples
@@ -51,11 +55,13 @@ for compound in qm9_compounds:
         target=target_adjacency_matrix[None, :, :, :],
     )
 
-    print(f"Id: {compound.GetProp('_Name')}")
-    print(f" Wrong bonds, positions: {bond_metrics['pos_wrong']}")
-    print(f" Wrong bonds: {bond_metrics['wrong']}")
-    print(f"Heatmap similarity: {psnr}")
-    print(f" Fragment accuracy: {1 - fr_acc}")
+    logging.info(
+        f"Id: {compound.GetProp('_Name')}\n"
+        f" Wrong bonds, positions: {bond_metrics['pos_wrong']}\n"
+        f" Wrong bonds: {bond_metrics['wrong']}\n"
+        f" Heatmap similarity: {psnr}\n"
+        f" Fragment accuracy: {1 - fr_acc}"
+    )
 
     show_adjacency_matrix(matrix=predicted_matrix, title="Prediction", size=n)
     show_bond_probabilities(matrix=predicted_matrix, title="Heatmap", size=n)

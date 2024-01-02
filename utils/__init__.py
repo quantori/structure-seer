@@ -22,6 +22,7 @@ from .dft_utils import (
     generate_input_file,
     is_successful_orca_run,
     nmr_shielding_from_out_file,
+    orca_output_file_check,
 )
 from .metrics import excess_bonds, heatmap_similarity, wrong_bonds
 from .molecule_permutations import (
@@ -62,4 +63,5 @@ __all__ = [
     "SHIELDING_MIN",
     "excess_bonds",
     "wrong_bonds",
+    "orca_output_file_check",
 ]

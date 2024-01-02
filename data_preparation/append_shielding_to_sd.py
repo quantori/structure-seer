@@ -6,6 +6,7 @@ from rdkit import Chem
 from utils import (
     is_successful_orca_run,
     nmr_shielding_from_out_file,
+    orca_output_file_check,
     read_sdf_compounds,
 )
 
@@ -27,10 +28,8 @@ compound_nmrs = dict()
 
 # Check if folder contains corresponding .out file and ORCA terminated normally
 for folder in input_dir:
-    if (
-        os.path.isdir(f"{INPUT_FOLDER}/{folder}")
-        and os.path.isfile(f"{INPUT_FOLDER}/{folder}/{folder}_{CALC_TYPE}.out")
-        and is_successful_orca_run(f"{INPUT_FOLDER}/{folder}/{folder}_{CALC_TYPE}.out")
+    if orca_output_file_check(
+        path=INPUT_FOLDER, compound_id=folder, calc_type=CALC_TYPE
     ):
         logging.info(f"{input_dir.index(folder)} out of {len(input_dir)} processed")
         # Parse NMR Shielding constants from .out file

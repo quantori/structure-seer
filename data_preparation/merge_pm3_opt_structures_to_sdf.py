@@ -4,7 +4,7 @@ import os
 from rdkit import Chem
 from rdkit.Chem import rdmolfiles
 
-from utils import is_successful_orca_run
+from utils import orca_output_file_check
 
 """
 Merges optimised structures from .out files to an .sdf file
@@ -21,19 +21,15 @@ compound_folders = []
 # Check if folder contains corresponding .out file and ORCA terminated normally
 for folder in input_dir:
     try:
-        if (
-            os.path.isdir(f"{INPUT_FOLDER}/{folder}")
-            and os.path.isfile(f"{INPUT_FOLDER}/{folder}/{folder}_{CALC_TYPE}.out")
-            and is_successful_orca_run(
-                f"{INPUT_FOLDER}/{folder}/{folder}_{CALC_TYPE}.out"
-            )
+        if orca_output_file_check(
+            path=INPUT_FOLDER, compound_id=folder, calc_type=CALC_TYPE
         ):
             compound_folders.append(folder)
             logging.info(f"{input_dir.index(folder)} out of {len(input_dir)} processed")
         else:
             logging.info(f"{folder} - Calculations failed")
-    except:
-        logging.info(f"{folder} - Calculations failed")
+    except Exception as e:
+        logging.info(f"{folder}: {e}")
 
 # Collect optimised geometries as .xyz files and move them to a single .sd file
 compounds = []

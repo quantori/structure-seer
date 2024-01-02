@@ -73,6 +73,9 @@ def generate_adjacency_matrix_permutations(
     """
     permuted_matrices = []
 
+    def s_sort(e):
+        return e[0][0], e[0][1]
+
     for permutation in permutations:
         el_count = len(elements)
 
@@ -82,9 +85,6 @@ def generate_adjacency_matrix_permutations(
 
         # zip old_atom_order and index holder into container to retain old indexes
         container = list(zip(permutation_nodes, index_holder))
-
-        def s_sort(e):
-            return e[0][0], e[0][1]
 
         container.sort(key=s_sort)
         _, old_ids = zip(*container)

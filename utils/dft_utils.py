@@ -50,13 +50,12 @@ def is_successful_orca_run(path_to_out_file: str) -> bool:
     with open(path_to_out_file, "r") as f:
         last_line = f.readlines()[-2].replace(" ", "")
 
-        if last_line == "****ORCATERMINATEDNORMALLY****\n":
-            return True
-        else:
-            return False
+        return last_line == "****ORCATERMINATEDNORMALLY****\n"
 
 
-def calculate_with_orca(path: str, orca_path: str, calc_type: typing.Optional[str] = "DFT") -> None:
+def calculate_with_orca(
+    path: str, orca_path: str, calc_type: typing.Optional[str] = "DFT"
+) -> None:
     """
     Run ORCA calculation from every folder within the specified directory, if it contains appropriate .inp file
     :param path: path to directory with folders, containing input files
@@ -91,8 +90,8 @@ def calculate_with_orca(path: str, orca_path: str, calc_type: typing.Optional[st
             logging.info(
                 f"{compound} computed in {round(job_end-job_start, 2)} seconds"
             )
-        except:
-            logging.info(f"Calculations for {compound} failed")
+        except Exception as e:
+            logging.info(f"Calculations for {compound} failed due to:\n {e}")
 
     end = time.time()
     logging.info(
@@ -122,16 +121,21 @@ def generate_input_file(compound: Chem.Mol, save_path: str, calc_type: str) -> N
     elif calc_type == "NMR":
         inp_file = f"{DFT_NMR_HEADER}\n* xyz 0 {spin}\n{xyz}\n*"
     else:
-        raise ValueError("OPT or NMR types only are supported ")
+        raise ValueError("OPT or NMR types are only supported ")
 
     compound_folder = f"{save_path}/{compound.GetProp('_Name')}"
-    try:
-        os.mkdir(compound_folder)
-        f = open(f"{compound_folder}/{compound.GetProp('_Name')}_{calc_type}.inp", "w+")
-        f.write(inp_file)
-        f.close()
-    except Exception as e:
-        logging.info(f"Unable to create compound folder with an input file due to {e}")
+    os.mkdir(compound_folder)
+
+    with open(
+        f"{compound_folder}/{compound.GetProp('_Name')}_{calc_type}.inp", "w+"
+    ) as f:
+        try:
+            f.write(inp_file)
+            f.close()
+        except Exception as e:
+            logging.info(
+                f"Unable to create compound folder with an input file due to {e}"
+            )
 
 
 def calculate_spin_multiplicity(compound: Chem.Mol) -> int:
@@ -157,3 +161,22 @@ def calculate_spin_multiplicity(compound: Chem.Mol) -> int:
     spin_multiplicity = 2 * total_electronic_spin + 1
 
     return int(spin_multiplicity)
+
+
+def orca_output_file_check(path: str, compound_id: str, calc_type: str):
+    """
+    Checks if the output file exists and calculations terminated normally
+    :param path: path to a directory with compound folders
+    :param compound_id: the name of the compound (compound folder)
+    :param calc_type: type of the calculation
+    :return: True if folder exists and calculation terminated normally, else - False
+    """
+    check = (
+        os.path.isdir(f"{path}/{compound_id}")
+        and os.path.isfile(f"{path}/{compound_id}/{compound_id}_{calc_type}.out")
+        and is_successful_orca_run(
+            f"{path}/{compound_id}/{compound_id}_{calc_type}.out"
+        )
+    )
+
+    return check

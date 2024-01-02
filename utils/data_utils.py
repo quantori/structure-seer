@@ -51,9 +51,35 @@ def read_sdf_compounds(path: str) -> list:
     return list(compounds)
 
 
+def suitability_check(
+    compound: Chem.Mol, pubchem_id: int, forbidden_compounds: typing.List[int]
+):
+    """
+    Evaluates a suitability of a compound being loaded from PubChem
+    :param compound: Compound - RdKit mol object
+    :param pubchem_id: PubChemID - id of a compound in the PubChem Database
+    :param forbidden_compounds: list of id's to avoid
+    :return: True if compound is suitable, False otherwise
+    """
+    # Check elements
+    elements = set([atom.GetAtomicNum() for atom in compound.GetAtoms()])
+    # Check if compound is suitable
+    check = (
+        # Check that charge of the molecule is 0
+        (Chem.rdmolops.GetFormalCharge(compound) == 0)
+        # Check that the compound contains only permitted elements
+        and (elements.issubset(PERMITTED_ELEMENTS))
+        # Check that the compound contains not more than permitted amount of atoms
+        and (compound.GetNumAtoms() <= MAX_N_ATOMS)
+        # Check if the compound is in the NMRShiftDB
+        and not (pubchem_id in forbidden_compounds)
+    )
+    return check
+
+
 def generate_pubchem_sample(
     size: int,
-    path: str = "../data/pubchem_raw_data",
+    path: str = "./data/pubchem_raw_data",
     compounds_to_exclude: typing.Optional[typing.List[int]] = None,
 ) -> str:
     """
@@ -84,7 +110,9 @@ def generate_pubchem_sample(
             pubchem_id = random.randint(1, MAX_PUBCHEM_CID)
 
         time_passed_from_old_request = time.time() - request_start_time
-        if time_passed_from_old_request > 0.21:
+        if time_passed_from_old_request <= 0.21:
+            continue
+        else:
             try:
                 # Get SMILES for corresponding Random CID
                 request_start_time = time.time()
@@ -95,18 +123,12 @@ def generate_pubchem_sample(
 
                 # Add Hydrogens
                 compound = Chem.AddHs(compound)
-                # Check elements
-                elements = set([atom.GetAtomicNum() for atom in compound.GetAtoms()])
+
                 # Check if compound is suitable
-                if (
-                    # Check that charge of the molecule is 0
-                    (Chem.rdmolops.GetFormalCharge(compound) == 0)
-                    # Check that the compound contains only permitted elements
-                    and (elements.issubset(PERMITTED_ELEMENTS))
-                    # Check that the compound contains not more than permitted amount of atoms
-                    and (compound.GetNumAtoms() <= MAX_N_ATOMS)
-                    # Check if the compound is in the NMRShiftDB
-                    and not (pubchem_id in forbidden_compounds)
+                if suitability_check(
+                    compound=compound,
+                    pubchem_id=pubchem_id,
+                    forbidden_compounds=forbidden_compounds,
                 ):
                     # Set Name of the Compound to Pubchem CID
                     compound.SetProp("_Name", f"pubchem_cid_{pubchem_id}")
@@ -122,8 +144,10 @@ def generate_pubchem_sample(
                     # Append Ids List
                     pubchem_ids.append(pubchem_id)
 
-            except:
-                pass
+            except Exception as e:
+                logging.error(
+                    f"The error {e} occurred during loading PubChem compound {pubchem_id} "
+                )
 
             # Logging progress
             n = len(pubchem_ids)
@@ -133,8 +157,7 @@ def generate_pubchem_sample(
                     f" {n} out of {size} requested compounds - {round(n/size*100,2)}%"
                     f" - Estimated time: {datetime.timedelta(seconds=est_time_s)}"
                 )
-        else:
-            pass
+
     end = time.time()
 
     print(f"Sample Dataset generated in {datetime.timedelta(seconds=round(end-start))}")
@@ -148,8 +171,8 @@ def batch(iterable: list, n: int):
     :param n: batch size
     :return: i batches of size n
     """
-    l = len(iterable)
+    li = len(iterable)
     i = 0
-    for ndx in range(0, l, n):
+    for ndx in range(0, li, n):
         i += 1
-        yield i, iterable[ndx : min(ndx + n, l)]
+        yield i, iterable[ndx : min(ndx + n, li)]

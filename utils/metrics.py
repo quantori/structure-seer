@@ -64,6 +64,6 @@ def excess_bonds(prediction: torch.Tensor, target: torch.Tensor) -> torch.Tensor
 
     diff[diff > 0] = 0
 
-    excess_bonds = torch.sum(torch.count_nonzero(diff, dim=1), dim=1) / num_bonds
+    excess_bonds_value = torch.sum(torch.count_nonzero(diff, dim=1), dim=1) / num_bonds
 
-    return excess_bonds
+    return excess_bonds_value

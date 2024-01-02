@@ -7,3 +7,4 @@ wandb/*
 colab_training/*
 /.ipynb_checkpoints/
 /venv
+/training_log/

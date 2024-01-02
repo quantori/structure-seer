@@ -1,3 +1,4 @@
+import logging
 from statistics import mean
 
 import torch
@@ -9,6 +10,8 @@ from utils.molecule_permutations import (
     generate_adjacency_matrix_permutations,
     generate_shielding_permutations,
 )
+
+logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.INFO)
 
 """
 Attributes peaks of the given structure based on the model's predictions
@@ -24,18 +27,18 @@ structure_seer = StructureSeer()
 # Load weights, trained on QM9 Dataset
 structure_seer.encoder.load_state_dict(
     torch.load(
-        "../weights/structure_seer/qm9/qm9_structure_seer_encoder.weights",
+        "./weights/structure_seer/qm9/qm9_structure_seer_encoder.weights",
         map_location="cpu",
     )
 )
 structure_seer.decoder.load_state_dict(
     torch.load(
-        "../weights/structure_seer/qm9/qm9_structure_seer_decoder.weights",
+        "./weights/structure_seer/qm9/qm9_structure_seer_decoder.weights",
         map_location="cpu",
     )
 )
 
-qm9_compounds = read_sdf_compounds("../example_datasets/demo_compounds_qm9.sdf")
+qm9_compounds = read_sdf_compounds("./example_datasets/demo_compounds_qm9.sdf")
 
 structure_count = len(qm9_compounds)
 accuracy = 0
@@ -59,8 +62,9 @@ for u in tqdm(range(len(qm9_compounds))):
     perm_count = len(permutations)
 
     # Shuffle input graph
-
-    if perm_count <= PERMUTATION_LIMIT:
+    if perm_count > PERMUTATION_LIMIT:
+        continue
+    else:
         # Generate all permutations of the input graph adjacency matrix
         target = torch.argmax(target, dim=-1)
         input_permutations = generate_adjacency_matrix_permutations(
@@ -122,12 +126,10 @@ for u in tqdm(range(len(qm9_compounds))):
 
         if s_diff_tensor[best_id] == 0:
             accuracy += 1
-    else:
-        pass
 
-print(
+logging.info(
     f"OVERALL RUN STATISTICS for TOP {TOP} candidates (Carbon atoms only)- total compounds processed {processed_samples}\n"
-    f"Permutation Limit {PERMUTATION_LIMIT}"
+    f"Permutation Limit {PERMUTATION_LIMIT}\n"
     f"Average accuracy {accuracy / processed_samples}\n"
     f"Average absolute error in shielding value {mean(average_mean_attribution_error)}\n"
     f"Average relative error in shielding value {mean(average_mean_relative_attribution_error)}\n"

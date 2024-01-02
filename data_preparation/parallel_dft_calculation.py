@@ -5,7 +5,6 @@ import time
 import typing
 from multiprocessing import Pool
 
-
 """
 Script Executes parallel DFT Calculations using ORCA. Number of Workers, as well as ORCA path and path
 to a directory, containing folders with .inp files can be configured.
@@ -61,9 +60,11 @@ def orca_job(input_data):
                 f"Estimated Time Remaining "
                 f"{datetime.timedelta(seconds=round(average_time_per_task*(num_tasks-(task_index-1))))}"
             )
-        except:
-            logging.info(f"Calculations for {task} on worker {input_data[0]} failed")
-            
+        except Exception as e:
+            logging.info(
+                f"Calculations for {task} on worker {input_data[0]} failed due to:\n {e}"
+            )
+
     logging.info(
         f"Computation of {num_tasks} tasks on worker {input_data[0]} finished in"
         f" {datetime.timedelta(seconds=round(total_time))}"

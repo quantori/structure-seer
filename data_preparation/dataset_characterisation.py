@@ -1,7 +1,8 @@
 import logging
+from collections import defaultdict
+
 import torch
 
-from collections import defaultdict
 from utils import MolecularDataset
 
 """
