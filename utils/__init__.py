@@ -64,4 +64,5 @@ __all__ = [
     "excess_bonds",
     "wrong_bonds",
     "orca_output_file_check",
+    "heatmap_similarity",
 ]
