@@ -3,8 +3,12 @@ import os
 
 from rdkit import Chem
 
-from utils import (is_successful_orca_run, nmr_shielding_from_out_file,
-                   orca_output_file_check, read_sdf_compounds)
+from utils import (
+    is_successful_orca_run,
+    nmr_shielding_from_out_file,
+    orca_output_file_check,
+    read_sdf_compounds,
+)
 
 """
 This script can be used to extract calculated
