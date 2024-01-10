@@ -2,6 +2,7 @@ import datetime
 import logging
 import os
 import re
+import subprocess
 import time
 import typing
 
@@ -83,8 +84,11 @@ def calculate_with_orca(
                 f"Starting computation for {compound_folders.index(compound)} out of {n} - {compound}"
             )
             job_start = time.time()
-            os.system(
-                f"{orca_path}/orca {path}/{compound}/{compound}.inp > {path}/{compound}/{compound}_{calc_type}.out"
+
+            subprocess.run(
+                f"{orca_path}/orca {path}/{compound}/{compound}.inp > {path}/{compound}/{compound}_{calc_type}.out",
+                capture_output=False,
+                shell=True,
             )
             job_end = time.time()
             logging.info(

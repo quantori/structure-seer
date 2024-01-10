@@ -7,9 +7,7 @@ from tqdm import tqdm
 from models.structure_seer_model import StructureSeer
 from utils import MolGraph, read_sdf_compounds
 from utils.molecule_permutations import (
-    generate_adjacency_matrix_permutations,
-    generate_shielding_permutations,
-)
+    generate_adjacency_matrix_permutations, generate_shielding_permutations)
 
 logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.INFO)
 

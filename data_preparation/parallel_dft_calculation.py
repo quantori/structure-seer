@@ -1,6 +1,7 @@
 import datetime
 import logging
 import os
+import subprocess
 import time
 import typing
 from multiprocessing import Pool
@@ -48,9 +49,14 @@ def orca_job(input_data):
                 f"Starting computation for {task} - {task_index} out of {num_tasks} on worker {input_data[0]}"
             )
             job_start = time.time()
-            os.system(
-                f"{ORCA_PATH}/orca {INPUT_FOLDER}/{task}/{task}_{CALC_TYPE}.inp > {INPUT_FOLDER}/{task}/{task}_{CALC_TYPE}.out"
+
+            subprocess.run(
+                f"{ORCA_PATH}/orca {INPUT_FOLDER}/{task}/{task}_{CALC_TYPE}.inp >"
+                f" {INPUT_FOLDER}/{task}/{task}_{CALC_TYPE}.out",
+                capture_output=False,
+                shell=True,
             )
+
             job_end = time.time()
             task_time = job_end - job_start
             total_time += task_time
