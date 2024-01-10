@@ -5,8 +5,7 @@ import torch
 from models.structure_seer_model import StructureSeer
 from utils.data_utils import read_sdf_compounds
 from utils.metrics import excess_bonds, heatmap_similarity, wrong_bonds
-from utils.molgraph import (MolGraph, show_adjacency_matrix,
-                            show_bond_probabilities)
+from utils.molgraph import MolGraph, show_adjacency_matrix, show_bond_probabilities
 
 logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.INFO)
 
