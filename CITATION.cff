@@ -4,10 +4,16 @@ authors:
   - family-names: "Sapegin"
     given-names: "Denis A"
     orcid: "https://orcid.org/0000-0002-1446-6288"
-  - family-names: "Bear"
-    given-names: "Joseph C"
-type: article
-title: "Structure Seer – a machine learning model for chemical structure elucidation from node labelling of a molecular graph"
-doi: 10.1039/D3DD00178D
-journal: Digital Discovery
-year: 2024
+title: "Structure Seer"
+preferred-citation:
+  type: article
+  authors:
+    - family-names: "Sapegin"
+      given-names: "Denis Andzheevich"
+      orcid: "https://orcid.org/0000-0002-1446-6288"
+    - family-names: "Bear"
+      given-names: "Joseph C"
+  title: "Structure Seer – a machine learning model for chemical structure elucidation from node labelling of a molecular graph"
+  doi: 10.1039/D3DD00178D
+  journal: "Digital Discovery"
+  year: 2024
